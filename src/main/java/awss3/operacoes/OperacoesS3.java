@@ -31,8 +31,6 @@ public class OperacoesS3 {
         clienteS3.createBucket(nomeBucket);
     }
 
-
-    // Retorna uma lista de nomes de Buckets
     public List<String> listarBuckets() {
         return clienteS3.listBuckets()
                 .stream()
