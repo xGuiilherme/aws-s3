@@ -1,4 +1,4 @@
-## Serviço para enviar arquivos para o Bucket no S3 AWS:
+## Serviço para enviar arquivos ao Bucket no AWS S3:
 :gear: Tecnologias
 
 - Java 11
