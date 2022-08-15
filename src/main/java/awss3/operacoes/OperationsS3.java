@@ -10,20 +10,20 @@ import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OperacoesS3 {
+public class OperationsS3 {
 
     private final AmazonS3 clienteS3;
 
-    public OperacoesS3(String accessKey, String secreteKey) {
-        var credenciais = new BasicAWSCredentials(accessKey, secreteKey);
+    public OperationsS3(String accessKey, String secreteKey) {
+        var credentials = new BasicAWSCredentials(accessKey, secreteKey);
         clienteS3 = AmazonS3ClientBuilder
                 .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credenciais))
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(Regions.US_EAST_1)
                 .build();
     }
 
-    public void criarBucket(final String nomeBucket) {
+    public void createBucket(final String nomeBucket) {
         if (clienteS3.doesBucketExistV2(nomeBucket)) {
             System.out.println("Nome do Bucket [" + nomeBucket + "] já foi utilizado.");
             return;
@@ -31,14 +31,14 @@ public class OperacoesS3 {
         clienteS3.createBucket(nomeBucket);
     }
 
-    public List<String> listarBuckets() {
+    public List<String> listBuckets() {
         return clienteS3.listBuckets()
                 .stream()
                 .map(bucket -> bucket.getName())
                 .collect(Collectors.toList());
     }
 
-    public void deletarBucket(final String nomeBucket) {
+    public void deleteBucket(final String nomeBucket) {
         if (!clienteS3.doesBucketExistV2(nomeBucket)) {
             System.out.println("O bucket informado não existe [" + nomeBucket + "].");
             return;
@@ -46,7 +46,7 @@ public class OperacoesS3 {
         clienteS3.deleteBucket(nomeBucket);
     }
 
-    public void enviarArquivo(String nomeBucket, String destinoArquivo, String origemArquivo) {
+    public void sendFile(String nomeBucket, String destinoArquivo, String origemArquivo) {
         if (!clienteS3.doesBucketExistV2(nomeBucket)) {
             System.out.println("O bucket informado não existe [" + nomeBucket + "].");
         }
@@ -54,15 +54,15 @@ public class OperacoesS3 {
     }
 
     // Retorna apenas o identificador unico de cada arquivo
-    public List<String> listarArquivo(String nomeBucket) {
-        var listObjetos = clienteS3.listObjects(nomeBucket);
-        return listObjetos.getObjectSummaries()
+    public List<String> listFile(String nomeBucket) {
+        var listObjects = clienteS3.listObjects(nomeBucket);
+        return listObjects.getObjectSummaries()
                 .stream()
                 .map(sumario -> sumario.getKey())
                 .collect(Collectors.toList());
     }
 
-    public void deletarArquivo(String nomeBucket, String chaveArquivo) {
+    public void deleteFile(String nomeBucket, String chaveArquivo) {
         clienteS3.deleteObject(nomeBucket, chaveArquivo);
     }
 }
