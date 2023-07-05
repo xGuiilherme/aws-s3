@@ -23,7 +23,7 @@ Na classe **Credenciais** temos duas constantes onde definimos as credencias da 
 ```java
 public class Credenciais {
 
-    public static final String ACCESS_KEY = "usuario";
-    public static final String SECRET_KEY = "senha";
+    public static final String ACCESS_KEY = "usuario_aqui";
+    public static final String SECRET_KEY = "senha_aqui";
 }
 ```
